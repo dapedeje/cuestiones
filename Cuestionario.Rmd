@@ -43,4 +43,39 @@ df <- Nosotros %>%
 sum(df$Ejer)
 
 ```
+#Ejer 3
+
+```{r}
+madm <- function(x, na.rm = T) {  
+  if (na.rm){
+    x <- x[!is.na(x)]
+  }
+  res <- 1.4826 * median(abs(x - median(x)))
+  return(res)
+}
+Estadisticos <- function(x, na.rm = T){
+  if (na.rm){
+    x <- x[!is.na(x)]
+  }
+  m <- mean(x)
+  n <- length(x)
+  s <- sd(x)
+  Q <- IQR(x)
+  MADM <- madm(x)
+  return(c(median = m,length = n, SD = s, IQR = Q,madm = MADM))
+  
+}
+reglasigma <- function(x,na.rm = T) { 
+  rest1 <- Estadisticos(x)[1]
+  rest2 <-Estadisticos(x)[3]
+  return(x < rest1 - 3*madm(x) | x > rest1 + 3 * rest2)
+  }
+
+UScereal <- read_csv("data/UScereal.csv")
+x <- reglasigma(UScereal$calories)
+x
+Categoria <- UScereal$calories[x]
+median(Categoria)
+```
+
 
