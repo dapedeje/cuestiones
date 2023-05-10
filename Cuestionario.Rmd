@@ -15,9 +15,32 @@ texto <- tolower(texto)
 texto <- strsplit(texto, " ", fixed = FALSE)
 texto <- unlist(texto)
 
-sum(grepl("[aeiou]", x = texto))
-sum(grepl("[aeiou]", x = texto))
+grep("[.]", x = texto)
+sum(grepl("^[aeiou]", x = texto))
 sum(grepl("[bcdfghjklmpqrstvwxyzñ]", x = texto))
 sum(grepl("[a]", x = texto))
+```
+#Tarea 2
+
+```{r}
+library(readr)
+library(tidyverse)
+library(lubridate)
+Nosotros <- read_delim("data/Nosotros.tsv", 
+    delim = "\t", escape_double = FALSE, 
+    trim_ws = TRUE)
+names(Nosotros)[1]<-"Fecha"
+Nosotros
+Fecha <- Nosotros$Fecha
+gsub("/", "-",Fecha)
+Nosotros$Fecha <- gsub("/", "-",Fecha)
+Nosotros$Fecha <- as.Date(Nosotros$Fecha, format = "%d-%m-%Y")
+Nosotros
+
+fecha <- as.Date("03-02-2021", format = "%d-%m-%Y")
+df <- Nosotros %>%
+  mutate(Ejer = as.numeric(fecha - Fecha) /360 )
+sum(df$Ejer)
+
 ```
 
